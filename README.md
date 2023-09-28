@@ -19,7 +19,7 @@ Chainmail is a script for hardening your Debian GNU/Linux workstation. It takes 
 
 ## Before Getting Started 
 
-This hardening script was developed on and for the latest release of Debian GNU/Linux codename Bookworm. That being said, it should also work on previous Debian releases with no problems. It should also work on the various GNU/Linux distributions that are based on Debian, like Ubuntu etc, but this was never tested. This script does not try to be a no-config just run and forget kind of automatic hardening, though for the most part it is exactly that. Regardless, discretion is recommended. You will need to comment some stuff out. Needless to say, back up your sensitive data. Chances are you won't lose your data anyway, but take your precautions just in case. Necessary packages installations are handled within the script so you do not need to manually install anything prior.
+This hardening script was developed on and for the latest release of Debian GNU/Linux codename Bookworm. That being said, it should also work on previous Debian releases with no problems. It should also work on the various GNU/Linux distributions that are based on Debian, like Ubuntu etc, but this was never tested. This script **does not** try to be a no-config just run and forget kind of automatic hardening, though for the most part, it is exactly that. Even for the parts that are completely no-config, discretion is still recommended. For some specific sections, you will need to comment some stuff out and/or edit some very minor things. These are made clear with comments. Needless to say, back up your sensitive data. Chances are you won't lose your data anyway, but take your precautions just in case. Necessary package installations are handled within the script so you do not need to manually install anything prior.
 
 ## Usage
 
@@ -30,7 +30,7 @@ chmod +x ./chainmail.sh
 ```
 
 ### Do your modifications or comment out parts
-Some parts of the script needs further tuning depending on your setup. These are quite rudimentary and require you to know just some v    ery basic informtaion about your specific installation. If you are unwilling to do this fine tuning, just comment out these parts completely not to sacrifice any stability.
+Some parts of the script needs further tuning depending on your setup. These are quite rudimentary and require you to know just some very basic information about your specific installation. If you are unwilling to do this fine tuning, just comment out these parts completely not to sacrifice any stability.
 
 ### Run the script
 ```
