@@ -298,16 +298,19 @@ enforce_delay() {
 
 hardened_mounting_options() {
     # BE CAREFUL
-    # This section requires manual tuning. The following config is applicable if you do not have /var and /tmp as seperate partitions on your drive. If that is not the case, you need to remove the bind option from them, else it won't work.
-    # /home can also be hardened with similar options. You should modify the existing /home entry rather than adding extra lines to fstab for a cleaner file.
+    # THIS SECTION REQUIRES MANUAL TUNING
+    # The following config is applicable if you do not have /var and /tmp as seperate partitions on your drive. If that is not the case, you need to remove the bind option from them, else it won't work.
+    # /home and root partitions can also be hardened with similar options. But that requires you manually editing the entries.
+    # You should modify the existing entries rather than adding extra lines to fstab for a cleaner file.
+    # It is rather intuitive. A sed operation or some other work around can be used for a fully automatized hardening of mount options, which is not implemented here.
     echo "
-/tmp                          /tmp            ext4    defaults,bind,nosuid,noexec,nodev     0 2 # bind might not be needed
-/var                          /var            ext4    defaults,bind,nosuid,nodev            0 2 # bind might not be needed
+# /tmp                          /tmp            ext4    defaults,bind,nosuid,noexec,nodev     0 2 # bind might not be needed
+# /var                          /var            ext4    defaults,bind,nosuid,nodev            0 2 # bind might not be needed
 /dev                          /dev            ext4    defaults,bind,nosuid,noexec           0 2
-/dev/shm                      /dev/shm        ext4    defaults,bind,nosuid,noexec,nodev     0 2
+tmpfs                         /dev/shm        tmpfs   defaults,nodev,nosuid,noexec          0 0
+/tmp                          /var/tmp        none    defaults,nodev,nosuid,noexec,bind     0 0
 /var/log                      /var/log        ext4    defaults,bind,nosuid,noexec,nodev     0 2
-/var/log/audit                /var/log/audit  ext4    defaults,bind,nosuid,noexec,nodev     0 2
-/tmp                          /var/tmp        ext4    defaults,bind,nosuid,noexec,nodev     0 2" >> /etc/fstab
+/var/log/audit                /var/log/audit  ext4    defaults,bind,nosuid,noexec,nodev     0 2" >> /etc/fstab
     systemctl daemon-reload
 }
 
