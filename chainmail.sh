@@ -81,7 +81,7 @@ harden_kernel_settings() {
 
 install_packages() {
     # Various recommended packages
-    apt install libpam-tmpdir pam_passwdqc -y
+    apt install libpam-tmpdir libpam-passwdqc -y
 }
 
 harden_kernel_mod() {
