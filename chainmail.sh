@@ -272,7 +272,7 @@ harden_file_permissions() {
 
 better_apt() {
     apt install needrestart debsums apt-listbugs apt-listchanges debsecan debsums unattended-upgrades apt-show-versions -y
-    # Use https, enable sandboxing features, enable unattended upgrades and
+    # Use https, enable sandboxing features, enable unattended upgrades
     rm /etc/apt/apt.conf.d/40sandbox
     echo "APT::Sandbox::Seccomp \"true\";" >> /etc/apt/apt.conf.d/40sandbox
     rm /etc/apt/apt.conf.d/02periodic
