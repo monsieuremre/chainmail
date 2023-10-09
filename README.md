@@ -43,6 +43,8 @@ When preparing this script I used various tools and sources. The most notable to
 * [Kicksecure Wiki](https://www.kicksecure.com/wiki/)
 * [Kernel Self Protection Project](https://kernsec.org/wiki/)
 * [Whonix Forums | Kernel Hardening - security-misc](https://forums.whonix.org/t/kernel-hardening-security-misc/7296/43)
+* [Securing Debian Manual](https://www.debian.org/doc/manuals/securing-debian-manual/index.en.html)
+* [Debian | Setup Guides - Secure Personal Computer](https://wiki.debian.org/SetupGuides/SecurePersonalComputer)
 
 ## Contributing
 
