@@ -26,9 +26,10 @@ kernel.dmesg_restrict=1
 kernel.printk=3 3 3 3
 kernel.perf_event_paranoid=3
 kernel.kexec_load_disabled=1
-kernel.yama.ptrace_scope=1
+kernel.yama.ptrace_scope=3
 kernel.unprivileged_bpf_disabled=1
-kernel.sysrq=132
+kernel.randomize_va_space=2
+kernel.sysrq=0
 kernel.core_uses_pid=1
 
 dev.tty.ldisc_autoload=0
@@ -77,11 +78,6 @@ net.ipv6.conf.default.use_tempaddr=2" >> /etc/sysctl.conf
 
     # Load in sysctl settings
     sysctl -p
-}
-
-install_packages() {
-    # Various recommended packages
-    apt install libpam-tmpdir libpam-passwdqc -y
 }
 
 harden_kernel_mod() {
@@ -332,16 +328,25 @@ disable_autoenable_bluetooth () {
 }
 
 usb_guard () {
-    # Enabling this would require you to manually whitelist usb devices that you want to use. If you know how to do it, comment out.
-    # If you don't want to bother, then leave.
-    # apt install usbguard -y
-    # sed -i 's/Inserted.*/InsertedDevicePolicy=block/' /etc/usbguard/usbguard-daemon.conf
-    # sed -i 's/PresentControllerPolicy=.*/PresentControllerPolicy=apply-policy/' /etc/usbguard/usbguard-daemon.conf
+    apt install usbguard -y
+    sed -i 's/InsertedDevicePolicy=.*/InsertedDevicePolicy=block/' /etc/usbguard/usbguard-daemon.conf
+    sed -i 's/PresentControllerPolicy=.*/PresentControllerPolicy=apply-policy/' /etc/usbguard/usbguard-daemon.conf
+    usbguard generate-policy > /etc/usbguard/rules.conf
+    # Allows pure storage devices. Explicitly rejects those with suspicious additional properties.
+    # Any peripheral like a mouse or a keyboard that wasn't plugged in during hardening must be enabled manually.
+    # Consider this beforehand to not lock yourself out of the system.
+    # https://usbguard.github.io/documentation/rule-language.html
+    echo "allow with-interface equals { 08:*:* }
+reject with-interface all-of { 08:*:* 03:00:* }
+reject with-interface all-of { 08:*:* 03:01:* }
+reject with-interface all-of { 08:*:* e0:*:* }
+reject with-interface all-of { 08:*:* 0a:*:* }
+reject with-interface all-of { 08:*:* 02:*:* }" >> /etc/usbguard/rules.conf
+    systemctl enable --now usbguard
 }
 
 update_everything
 harden_kernel_settings
-install_packages
 harden_kernel_mod
 add_legal_banner
 harden_pam
@@ -355,4 +360,4 @@ entropy
 app_armor
 hardened_mounting_options
 disable_autoenable_bluetooth
-# usb_guard
+usb_guard
